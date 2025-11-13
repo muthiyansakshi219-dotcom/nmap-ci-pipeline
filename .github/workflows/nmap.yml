@@ -1,0 +1,29 @@
+name: Nmap Project CI
+
+on: [push]
+
+jobs:
+  run-nmap:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Install Nmap
+        run: sudo apt-get update && sudo apt-get install -y nmap
+
+      - name: Run Nmap Example Scan
+        run: nmap -v localhost
+
+      - name: Save Scan Result
+        run: |
+          mkdir output
+          nmap -A localhost -oN output/nmap_results.txt
+
+      - name: Upload Results
+        uses: actions/upload-artifact@v3
+        with:
+          name: nmap-results
+          path: output/nmap_results.txt
+
