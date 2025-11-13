@@ -8,7 +8,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Install Nmap
         run: sudo apt-get update && sudo apt-get install -y nmap
@@ -18,12 +18,11 @@ jobs:
 
       - name: Save Scan Result
         run: |
-          mkdir output
+          mkdir -p output
           nmap -A localhost -oN output/nmap_results.txt
 
       - name: Upload Results
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: nmap-results
           path: output/nmap_results.txt
-
